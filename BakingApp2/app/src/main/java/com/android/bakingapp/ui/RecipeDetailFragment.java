@@ -16,6 +16,7 @@ import com.android.bakingapp.data.Recipes;
 
 public class RecipeDetailFragment extends Fragment {
     private Recipes mRecipes;
+    private int mPosition;
 
     public RecipeDetailFragment() {
         // Required empty public constructor
@@ -30,7 +31,7 @@ public class RecipeDetailFragment extends Fragment {
 
         RecyclerView ingredientsRecyclerView = rootView.findViewById(R.id.ingredients_rv_view);
         ingredientsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        IngredientsAdapter ingredientsAdapter = new IngredientsAdapter(getContext(), mRecipes.getRecipes());
+        IngredientsAdapter ingredientsAdapter = new IngredientsAdapter(getContext(), mRecipes.getIngredients(mPosition));
         ingredientsRecyclerView.setAdapter(ingredientsAdapter);
         return rootView;
     }

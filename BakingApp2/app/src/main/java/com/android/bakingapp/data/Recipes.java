@@ -27,11 +27,13 @@ public class Recipes implements RecipeListQueryTask.RecipeListAsyncResponse{
     }
 
     public JSONArray getIngredients(int position) {
+        JSONArray jsonArray = null;
         try {
-            return mRecipes.getJSONObject(position).getJSONArray("ingredients");
+            jsonArray = mRecipes.getJSONObject(position).getJSONArray("ingredients");
         } catch (JSONException e) {
             Log.e(TAG, "Failed to get ingredients from JSONArray");
         }
+        return jsonArray;
     }
 
     @Override
