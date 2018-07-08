@@ -33,6 +33,12 @@ public class RecipeDetailFragment extends Fragment {
         ingredientsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         IngredientsAdapter ingredientsAdapter = new IngredientsAdapter(getContext(), mRecipes.getIngredients(mPosition));
         ingredientsRecyclerView.setAdapter(ingredientsAdapter);
+
+        RecyclerView stepsRecyclerView = rootView.findViewById(R.id.steps_rv_view);
+        stepsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        StepsAdapter stepsAdapter = new StepsAdapter(getContext(), mRecipes.getSteps(mPosition));
+        stepsRecyclerView.setAdapter(stepsAdapter);
+
         return rootView;
     }
 

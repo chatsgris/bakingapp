@@ -36,6 +36,16 @@ public class Recipes implements RecipeListQueryTask.RecipeListAsyncResponse{
         return jsonArray;
     }
 
+    public JSONArray getSteps(int position) {
+        JSONArray jsonArray = null;
+        try {
+            jsonArray = mRecipes.getJSONObject(position).getJSONArray("steps");
+        } catch (JSONException e) {
+            Log.e(TAG, "Failed to get steps from JSONArray");
+        }
+        return jsonArray;
+    }
+
     @Override
     public void processFinish(JSONArray output) {
     }
