@@ -28,6 +28,7 @@ public class RecipeDetailFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_recipe_detail, container, false);
 
         mRecipes = new Recipes();
+        mPosition = this.getArguments().getInt("Position");
 
         RecyclerView ingredientsRecyclerView = rootView.findViewById(R.id.ingredients_rv_view);
         ingredientsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

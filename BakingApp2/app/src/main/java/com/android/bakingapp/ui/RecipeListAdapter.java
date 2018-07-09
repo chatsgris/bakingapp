@@ -21,6 +21,11 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Vi
     private JSONArray mJsonArray;
     private String TAG = RecipeListAdapter.class.getSimpleName();
     private LayoutInflater mInflater;
+    private OnItemClicked onClick;
+
+    public interface OnItemClicked {
+        void onItemClick(int position);
+    }
 
     RecipeListAdapter(Context context, JSONArray jsonArray) {
         this.mInflater = LayoutInflater.from(context);
@@ -43,7 +48,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(RecipeListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecipeListAdapter.ViewHolder holder, final int position) {
         String text = null;
         try {
             text = mJsonArray.getJSONObject(position).getString("name");
@@ -51,10 +56,18 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Vi
             Log.e(TAG, "Failed to parse recipe name from JSONArray");
         }
         holder.recipeItemView.setText(text);
+        holder.recipeItemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClick.onItemClick(position);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return mJsonArray.length();
     }
+
+    public void setOnClick(OnItemClicked onClick) {this.onClick=onClick;}
 }

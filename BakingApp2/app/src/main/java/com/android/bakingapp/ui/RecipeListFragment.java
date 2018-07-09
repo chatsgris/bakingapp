@@ -11,9 +11,14 @@ import android.view.ViewGroup;
 import com.android.bakingapp.R;
 import com.android.bakingapp.data.Recipes;
 
-public class RecipeListFragment extends Fragment {
+public class RecipeListFragment extends Fragment implements RecipeListAdapter.OnItemClicked {
     Recipes mRecipes;
     boolean mTwoPane;
+    OnRecipeClickListener mCallback;
+
+    public interface OnRecipeClickListener {
+        void onRecipeSelected(int position);
+    }
 
     public RecipeListFragment() {
         // Required empty public constructor
@@ -35,11 +40,23 @@ public class RecipeListFragment extends Fragment {
         mRecipes = new Recipes();
         RecipeListAdapter mAdapter = new RecipeListAdapter(getContext(), mRecipes.getRecipes());
         recyclerView.setAdapter(mAdapter);
+        mAdapter.setOnClick(this);
         return rootView;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        try {
+            mCallback = (OnRecipeClickListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnRecipeClickListener");
+        }
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        mCallback.onRecipeSelected(position);
     }
 }
