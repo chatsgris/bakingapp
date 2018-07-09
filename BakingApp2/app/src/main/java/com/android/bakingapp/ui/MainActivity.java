@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements RecipeListFragmen
     public void onRecipeSelected(int position) {
         Bundle b = new Bundle();
         b.putInt("Position", position);
-        final Intent intent = new Intent(this, RecipeDetailFragment.class);
+        final Intent intent = new Intent(this, RecipeDetailActivity.class);
         intent.putExtras(b);
         startActivity(intent);
     }

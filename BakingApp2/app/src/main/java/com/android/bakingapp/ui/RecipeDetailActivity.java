@@ -13,5 +13,15 @@ public class RecipeDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_detail);
+        mPosition = getIntent().getIntExtra("Position", 0);
+
+        if (savedInstanceState == null) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("Position", mPosition);
+            RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
+            recipeDetailFragment.setArguments(bundle);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().add(R.id.recipe_detail_container, recipeDetailFragment).commit();
+        }
     }
 }

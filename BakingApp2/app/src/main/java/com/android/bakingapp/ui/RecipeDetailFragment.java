@@ -10,9 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.bakingapp.R;
 import com.android.bakingapp.data.Recipes;
+
+import org.w3c.dom.Text;
 
 public class RecipeDetailFragment extends Fragment {
     private Recipes mRecipes;
@@ -25,10 +28,11 @@ public class RecipeDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_recipe_detail, container, false);
 
         mRecipes = new Recipes();
         mPosition = this.getArguments().getInt("Position");
+
+        final View rootView = inflater.inflate(R.layout.fragment_recipe_detail, container, false);
 
         RecyclerView ingredientsRecyclerView = rootView.findViewById(R.id.ingredients_rv_view);
         ingredientsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -39,6 +43,9 @@ public class RecipeDetailFragment extends Fragment {
         stepsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         StepsAdapter stepsAdapter = new StepsAdapter(getContext(), mRecipes.getSteps(mPosition));
         stepsRecyclerView.setAdapter(stepsAdapter);
+
+        TextView ingredientsHeader = rootView.findViewById(R.id.ingredient_header);
+        TextView stepsHeader = rootView.findViewById(R.id.steps_header);
 
         return rootView;
     }
