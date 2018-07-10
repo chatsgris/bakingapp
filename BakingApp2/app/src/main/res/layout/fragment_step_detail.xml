@@ -64,14 +64,16 @@
             android:layout_height="wrap_content"
             android:id="@+id/prev_button"
             android:layout_weight="1"
-            android:text="Previous Step"/>
+            android:text="Previous Step"
+            android:onClick="onPrevButtonClick"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/next_button"
             android:layout_weight="1"
-            android:text="Next Step"/>
+            android:text="Next Step"
+            android:onClick="onNextButtonClick"/>
     </LinearLayout>
 
 

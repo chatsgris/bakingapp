@@ -34,6 +34,7 @@ public class StepDetailFragment extends Fragment {
     private int mPosition;
     private  Uri mThumbnailUri;
     private boolean mTwoPane;
+    private Recipes mRecipes = new Recipes();
 
     public StepDetailFragment() {
         // Required empty public constructor
@@ -49,19 +50,23 @@ public class StepDetailFragment extends Fragment {
 
         final View rootView = inflater.inflate(R.layout.fragment_step_detail, container, false);
 
-        Recipes recipes = new Recipes();
         TextView stepTitle = rootView.findViewById(R.id.step_instruction_title);
         TextView stepDescription = rootView.findViewById(R.id.step_instruction_value);
-        stepDescription.setText(recipes.getStepDescription(mStepId, mPosition));
+        stepDescription.setText(mRecipes.getStepDescription(mStepId, mPosition));
+
+        Button prevButton = rootView.findViewById(R.id.prev_button);
+
+        Button nextButton = rootView.findViewById(R.id.next_button);
+
 
         if (mTwoPane) {
-            rootView.findViewById(R.id.prev_button).setVisibility(View.GONE);
-            rootView.findViewById(R.id.next_button).setVisibility(View.GONE);
+            prevButton.setVisibility(View.GONE);
+            nextButton.setVisibility(View.GONE);
         }
 
         mPlayerView = rootView.findViewById(R.id.player_view);
-        mMediaUri = recipes.getMediaUri(mStepId, mPosition);
-        mThumbnailUri = recipes.getThumbnailUri(mStepId, mPosition);
+        mMediaUri = mRecipes.getMediaUri(mStepId, mPosition);
+        mThumbnailUri = mRecipes.getThumbnailUri(mStepId, mPosition);
 
         if (mMediaUri == null && mThumbnailUri == null) {
             mPlayerView.setVisibility(View.GONE);
@@ -115,5 +120,4 @@ public class StepDetailFragment extends Fragment {
         mExoPlayer.release();
         mExoPlayer = null;
     }
-
 }

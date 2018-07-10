@@ -3,8 +3,10 @@ package com.android.bakingapp.ui;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.android.bakingapp.R;
+import com.android.bakingapp.data.Recipes;
 
 public class StepDetailActivity extends AppCompatActivity {
     private int mStepId;
@@ -25,6 +27,38 @@ public class StepDetailActivity extends AppCompatActivity {
             stepDetailFragment.setArguments(bundle);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().add(R.id.step_detail_container, stepDetailFragment).commit();
+        }
+    }
+
+        public void onPrevButtonClick(View view) {
+        if (mStepId > 0) {
+            mStepId -=1;
+            Bundle bundle = new Bundle();
+            bundle.putInt("StepId", mStepId);
+            bundle.putInt("Position", mPosition);
+            StepDetailFragment stepDetailFragment = new StepDetailFragment();
+            stepDetailFragment.setArguments(bundle);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.step_detail_container, stepDetailFragment).commit();
+        } else {
+            mStepId = new Recipes().getSteps(mPosition).length();
+            onPrevButtonClick(view);
+        }
+    }
+
+    public void onNextButtonClick(View view) {
+        if (mStepId < new Recipes().getSteps(mPosition).length() - 1) {
+            mStepId += 1;
+            Bundle bundle = new Bundle();
+            bundle.putInt("StepId", mStepId);
+            bundle.putInt("Position", mPosition);
+            StepDetailFragment stepDetailFragment = new StepDetailFragment();
+            stepDetailFragment.setArguments(bundle);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.step_detail_container, stepDetailFragment).commit();
+        } else {
+            mStepId = 0;
+            onNextButtonClick(view);
         }
     }
 }
