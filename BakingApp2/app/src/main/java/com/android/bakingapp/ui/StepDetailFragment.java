@@ -31,6 +31,7 @@ public class StepDetailFragment extends Fragment {
     private Uri mMediaUri;
     private int mStepId;
     private int mPosition;
+    private  Uri mThumbnailUri;
 
     public StepDetailFragment() {
         // Required empty public constructor
@@ -50,10 +51,17 @@ public class StepDetailFragment extends Fragment {
         TextView stepDescription = rootView.findViewById(R.id.step_instruction_value);
         stepDescription.setText(recipes.getStepDescription(mStepId, mPosition));
 
-        mMediaUri = recipes.getMediaUri(mStepId, mPosition);
         mPlayerView = rootView.findViewById(R.id.player_view);
-        initializePlayer(mMediaUri);
+        mMediaUri = recipes.getMediaUri(mStepId, mPosition);
+        mThumbnailUri = recipes.getThumbnailUri(mStepId, mPosition);
 
+        if (mMediaUri == null && mThumbnailUri == null) {
+            mPlayerView.setVisibility(View.GONE);
+        } else if (mMediaUri != null) {
+            initializePlayer(mMediaUri);
+        } else {
+            initializePlayer(mThumbnailUri);
+        }
         return rootView;
     }
 
@@ -66,7 +74,9 @@ public class StepDetailFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        releasePlayer();
+        if (mPlayerView.getVisibility() != View.GONE) {
+            releasePlayer();
+        }
     }
 
     /**
