@@ -17,9 +17,14 @@ import com.android.bakingapp.data.Recipes;
 
 import org.w3c.dom.Text;
 
-public class RecipeDetailFragment extends Fragment {
+public class RecipeDetailFragment extends Fragment implements StepsAdapter.OnStepClicked {
     private Recipes mRecipes;
     private int mPosition;
+    OnStepClickListener mCallback;
+
+    public interface OnStepClickListener {
+        void onStepSelected(int stepId);
+    }
 
     public RecipeDetailFragment() {
         // Required empty public constructor
@@ -43,6 +48,7 @@ public class RecipeDetailFragment extends Fragment {
         stepsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         StepsAdapter stepsAdapter = new StepsAdapter(getContext(), mRecipes.getSteps(mPosition));
         stepsRecyclerView.setAdapter(stepsAdapter);
+        stepsAdapter.setOnClick(this);
 
         TextView ingredientsHeader = rootView.findViewById(R.id.ingredient_header);
         TextView stepsHeader = rootView.findViewById(R.id.steps_header);
@@ -53,5 +59,16 @@ public class RecipeDetailFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        try {
+            mCallback = (OnStepClickListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnStepClickListener");
+        }
+    }
+
+    @Override
+    public void onStepClick(int stepId) {
+        mCallback.onStepSelected(stepId);
     }
 }

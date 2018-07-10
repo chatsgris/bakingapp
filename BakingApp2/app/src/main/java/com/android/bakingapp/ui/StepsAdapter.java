@@ -21,6 +21,11 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
     private JSONArray mJsonArray;
     private LayoutInflater mInflater;
     private String TAG = StepsAdapter.class.getSimpleName();
+    private OnStepClicked onClick;
+
+    public interface OnStepClicked {
+        void onStepClick(int stepId);
+    }
 
     StepsAdapter(Context context, JSONArray jsonArray) {
         this.mJsonArray = jsonArray;
@@ -36,12 +41,23 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         String shortDescription = null;
+        int index = -1;
+
         try {
             shortDescription = mJsonArray.getJSONObject(position).getString("shortDescription");
+            index = mJsonArray.getJSONObject(position).getInt("id");
         } catch (JSONException e) {
             Log.e(TAG, "Failed to retrieve Step Short Description from JSON Array");
         }
         holder.shortDescriptionTv.setText(shortDescription);
+
+        final int stepId = index;
+        holder.shortDescriptionTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClick.onStepClick(stepId);
+            }
+        });
     }
 
     @Override
@@ -56,4 +72,6 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
             shortDescriptionTv = itemView.findViewById(R.id.short_description);
         }
     }
+
+    public void setOnClick(OnStepClicked onClick) {this.onClick=onClick;}
 }

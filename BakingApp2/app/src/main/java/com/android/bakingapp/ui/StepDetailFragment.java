@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.bakingapp.R;
+import com.android.bakingapp.data.Recipes;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
@@ -28,6 +29,8 @@ public class StepDetailFragment extends Fragment {
     private SimpleExoPlayer mExoPlayer;
     private SimpleExoPlayerView mPlayerView;
     private Uri mMediaUri;
+    private int mStepId;
+    private int mPosition;
 
     public StepDetailFragment() {
         // Required empty public constructor
@@ -36,14 +39,20 @@ public class StepDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
+        mStepId = this.getArguments().getInt("StepId");
+        mPosition = this.getArguments().getInt("Position");
+
         final View rootView = inflater.inflate(R.layout.fragment_step_detail, container, false);
 
+        Recipes recipes = new Recipes();
+        TextView stepTitle = rootView.findViewById(R.id.step_instruction_title);
+        TextView stepDescription = rootView.findViewById(R.id.step_instruction_value);
+        stepDescription.setText(recipes.getStepDescription(mStepId, mPosition));
+
+        mMediaUri = recipes.getMediaUri(mStepId, mPosition);
         mPlayerView = rootView.findViewById(R.id.player_view);
         initializePlayer(mMediaUri);
-
-        TextView stepTitle = rootView.findViewById(R.id.step_instruction_title);
-
 
         return rootView;
     }
