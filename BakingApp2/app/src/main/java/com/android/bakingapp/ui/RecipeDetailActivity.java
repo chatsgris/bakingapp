@@ -9,20 +9,24 @@ import com.android.bakingapp.R;
 
 public class RecipeDetailActivity extends AppCompatActivity implements RecipeDetailFragment.OnStepClickListener {
     private int mPosition;
+    private boolean mTwoPane;
+    private FragmentManager mFragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_detail);
         mPosition = getIntent().getIntExtra("Position", -1);
+        mTwoPane = this.getResources().getBoolean(R.bool.is_tablet);
 
         if (savedInstanceState == null) {
             Bundle bundle = new Bundle();
             bundle.putInt("Position", mPosition);
+
             RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
             recipeDetailFragment.setArguments(bundle);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().add(R.id.recipe_detail_container, recipeDetailFragment).commit();
+            mFragmentManager = getSupportFragmentManager();
+            mFragmentManager.beginTransaction().add(R.id.recipe_detail_container, recipeDetailFragment).commit();
         }
     }
 
@@ -31,8 +35,15 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
         Bundle b = new Bundle();
         b.putInt("StepId", stepId);
         b.putInt("Position", mPosition);
-        final Intent intent = new Intent(this, StepDetailActivity.class);
-        intent.putExtras(b);
-        startActivity(intent);
+
+        if (!mTwoPane) {
+            final Intent intent = new Intent(this, StepDetailActivity.class);
+            intent.putExtras(b);
+            startActivity(intent);
+        } else {
+            StepDetailFragment stepDetailFragment = new StepDetailFragment();
+            stepDetailFragment.setArguments(b);
+            mFragmentManager.beginTransaction().replace(R.id.step_detail_container, stepDetailFragment).commit();
+        }
     }
 }

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.bakingapp.R;
@@ -32,6 +33,7 @@ public class StepDetailFragment extends Fragment {
     private int mStepId;
     private int mPosition;
     private  Uri mThumbnailUri;
+    private boolean mTwoPane;
 
     public StepDetailFragment() {
         // Required empty public constructor
@@ -43,6 +45,7 @@ public class StepDetailFragment extends Fragment {
 
         mStepId = this.getArguments().getInt("StepId");
         mPosition = this.getArguments().getInt("Position");
+        mTwoPane = this.getResources().getBoolean(R.bool.is_tablet);
 
         final View rootView = inflater.inflate(R.layout.fragment_step_detail, container, false);
 
@@ -50,6 +53,11 @@ public class StepDetailFragment extends Fragment {
         TextView stepTitle = rootView.findViewById(R.id.step_instruction_title);
         TextView stepDescription = rootView.findViewById(R.id.step_instruction_value);
         stepDescription.setText(recipes.getStepDescription(mStepId, mPosition));
+
+        if (mTwoPane) {
+            rootView.findViewById(R.id.prev_button).setVisibility(View.GONE);
+            rootView.findViewById(R.id.next_button).setVisibility(View.GONE);
+        }
 
         mPlayerView = rootView.findViewById(R.id.player_view);
         mMediaUri = recipes.getMediaUri(mStepId, mPosition);
@@ -64,7 +72,6 @@ public class StepDetailFragment extends Fragment {
         }
         return rootView;
     }
-
 
     @Override
     public void onAttach(Context context) {
