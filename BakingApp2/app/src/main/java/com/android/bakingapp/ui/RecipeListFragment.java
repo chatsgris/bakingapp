@@ -11,9 +11,11 @@ import android.view.ViewGroup;
 import com.android.bakingapp.R;
 import com.android.bakingapp.data.Recipes;
 
+import butterknife.BindBool;
+
 public class RecipeListFragment extends Fragment implements RecipeListAdapter.OnItemClicked {
     Recipes mRecipes;
-    boolean mTwoPane;
+    @BindBool(R.bool.is_tablet) boolean mTwoPane;
     OnRecipeClickListener mCallback;
 
     public interface OnRecipeClickListener {
@@ -30,8 +32,6 @@ public class RecipeListFragment extends Fragment implements RecipeListAdapter.On
         final View rootView = inflater.inflate(R.layout.fragment_recipe_list, container, false);
         RecyclerView recyclerView = rootView.findViewById(R.id.recipes_rv_view);
 
-        MainActivity activity = (MainActivity) getActivity();
-        mTwoPane = activity.getTwoPane();
         if (mTwoPane) {
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         } else {

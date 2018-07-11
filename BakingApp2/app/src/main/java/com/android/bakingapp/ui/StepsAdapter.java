@@ -13,6 +13,9 @@ import com.android.bakingapp.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by liumi on 7/8/2018.
  */
@@ -66,10 +69,10 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        TextView shortDescriptionTv;
+        @BindView(R.id.short_description) TextView shortDescriptionTv;
         ViewHolder(View itemView) {
             super(itemView);
-            shortDescriptionTv = itemView.findViewById(R.id.short_description);
+            ButterKnife.bind(this, itemView);
         }
     }
 

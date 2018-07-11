@@ -6,21 +6,14 @@ import android.os.Bundle;
 
 import com.android.bakingapp.R;
 
-public class MainActivity extends AppCompatActivity implements RecipeListFragment.OnRecipeClickListener{
+import butterknife.BindBool;
 
-    private boolean mTwoPane;
+public class MainActivity extends AppCompatActivity implements RecipeListFragment.OnRecipeClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
-
-    public boolean getTwoPane() {
-        if (getResources().getBoolean(R.bool.is_tablet)) {
-            mTwoPane = true;
-        } else {mTwoPane = false;}
-        return mTwoPane;
     }
 
     @Override

@@ -13,6 +13,9 @@ import com.android.bakingapp.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by liumi on 7/6/2018.
  */
@@ -33,11 +36,11 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Vi
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView recipeItemView;
+        @BindView(R.id.recipe_item) TextView recipeItemView;
 
         ViewHolder(View itemView) {
             super(itemView);
-            recipeItemView = itemView.findViewById(R.id.recipe_item);
+            ButterKnife.bind(this, itemView);
         }
     }
 

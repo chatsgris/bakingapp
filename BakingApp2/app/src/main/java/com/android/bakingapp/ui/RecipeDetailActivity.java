@@ -7,9 +7,13 @@ import android.os.Bundle;
 
 import com.android.bakingapp.R;
 
+import butterknife.BindBool;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class RecipeDetailActivity extends AppCompatActivity implements RecipeDetailFragment.OnStepClickListener {
     private int mPosition;
-    private boolean mTwoPane;
+    @BindBool(R.bool.is_tablet) boolean mTwoPane;
     private FragmentManager mFragmentManager;
 
     @Override
@@ -17,7 +21,6 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_detail);
         mPosition = getIntent().getIntExtra("Position", -1);
-        mTwoPane = this.getResources().getBoolean(R.bool.is_tablet);
 
         if (savedInstanceState == null) {
             Bundle bundle = new Bundle();

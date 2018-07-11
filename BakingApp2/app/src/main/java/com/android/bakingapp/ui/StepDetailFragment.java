@@ -38,22 +38,31 @@ import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
+import butterknife.BindBool;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class StepDetailFragment extends Fragment implements ExoPlayer.EventListener{
 
     private SimpleExoPlayer mExoPlayer;
-    private SimpleExoPlayerView mPlayerView;
     private static MediaSessionCompat mMediaSession;
     private PlaybackStateCompat.Builder mStateBuilder;
     private Uri mMediaUri;
     private int mStepId;
     private int mPosition;
     private  Uri mThumbnailUri;
-    private boolean mTwoPane;
     private Recipes mRecipes = new Recipes();
     private String TAG = StepDetailFragment.class.getSimpleName();
     private NotificationManager mNotificationManager;
+
+    @BindView(R.id.step_instruction_title) TextView stepTitle;
+    @BindView(R.id.step_instruction_value) TextView stepDescription;
+    @BindView(R.id.prev_button) Button prevButton;
+    @BindView(R.id.next_button) Button nextButton;
+    @BindView(R.id.player_view) SimpleExoPlayerView mPlayerView;
+    @BindBool(R.bool.is_tablet) boolean mTwoPane;
 
     public StepDetailFragment() {
         // Required empty public constructor
@@ -65,25 +74,17 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
 
         mStepId = this.getArguments().getInt("StepId");
         mPosition = this.getArguments().getInt("Position");
-        mTwoPane = this.getResources().getBoolean(R.bool.is_tablet);
 
         final View rootView = inflater.inflate(R.layout.fragment_step_detail, container, false);
+        ButterKnife.bind(this, rootView);
 
-        TextView stepTitle = rootView.findViewById(R.id.step_instruction_title);
-        TextView stepDescription = rootView.findViewById(R.id.step_instruction_value);
         stepDescription.setText(mRecipes.getStepDescription(mStepId, mPosition));
-
-        Button prevButton = rootView.findViewById(R.id.prev_button);
-
-        Button nextButton = rootView.findViewById(R.id.next_button);
-
 
         if (mTwoPane) {
             prevButton.setVisibility(View.GONE);
             nextButton.setVisibility(View.GONE);
         }
 
-        mPlayerView = rootView.findViewById(R.id.player_view);
         mMediaUri = mRecipes.getMediaUri(mStepId, mPosition);
         mThumbnailUri = mRecipes.getThumbnailUri(mStepId, mPosition);
 

@@ -13,6 +13,9 @@ import com.android.bakingapp.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by liumi on 7/7/2018.
  */
@@ -29,21 +32,16 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView quantityTitleTv;
-        TextView quantityValueTv;
-        TextView measureTitleTv;
-        TextView measureValueTv;
-        TextView ingredientTitleTv;
-        TextView ingredientValueTv;
+        @BindView(R.id.quantity_title) TextView quantityTitleTv;
+        @BindView(R.id.quantity_value) TextView quantityValueTv;
+        @BindView(R.id.measure_title) TextView measureTitleTv;
+        @BindView(R.id.measure_value) TextView measureValueTv;
+        @BindView(R.id.ingredient_title) TextView ingredientTitleTv;
+        @BindView(R.id.ingredient_value) TextView ingredientValueTv;
 
         ViewHolder(View itemView) {
             super(itemView);
-            quantityTitleTv = itemView.findViewById(R.id.quantity_title);
-            quantityValueTv = itemView.findViewById(R.id.quantity_value);
-            measureTitleTv = itemView.findViewById(R.id.measure_title);
-            measureValueTv = itemView.findViewById(R.id.measure_value);
-            ingredientTitleTv = itemView.findViewById(R.id.ingredient_title);
-            ingredientValueTv = itemView.findViewById(R.id.ingredient_value);
+            ButterKnife.bind(this, itemView);
         }
     }
 
