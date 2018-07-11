@@ -18,8 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.RecipeDetailActivity" />
-        <activity android:name=".ui.StepDetailActivity"></activity>
+        <activity android:name=".ui.RecipeDetailActivity"
+            android:configChanges="orientation|screenSize|layoutDirection"/>
+        <activity android:name=".ui.StepDetailActivity"
+            android:configChanges="orientation|screenSize|layoutDirection"></activity>
         <receiver android:name=".ui.StepDetailFragment$MediaReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
