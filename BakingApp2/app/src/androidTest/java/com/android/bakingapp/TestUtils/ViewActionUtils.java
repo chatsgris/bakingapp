@@ -40,7 +40,7 @@ public class ViewActionUtils {
         };
     }
 
-    public static Matcher<View> atPosition(final int position, @NonNull final Matcher<View> itemMatcher) {
+    public static Matcher<View> atPosition(final int position, @NonNull final Matcher<View> itemMatcher, final int targetViewID) {
         checkNotNull(itemMatcher);
         return new BoundedMatcher<View, RecyclerView>(RecyclerView.class) {
             @Override
@@ -56,7 +56,7 @@ public class ViewActionUtils {
                     // has no item on such position
                     return false;
                 }
-                View targetView = viewHolder.itemView.findViewById(R.id.ingredient_value);
+                View targetView = viewHolder.itemView.findViewById(targetViewID);
                 return itemMatcher.matches(targetView);
             }
         };

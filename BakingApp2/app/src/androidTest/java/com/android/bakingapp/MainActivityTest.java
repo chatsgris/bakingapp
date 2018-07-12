@@ -36,7 +36,7 @@ public class MainActivityTest {
     @Test
     public void clickRecipeItems() {
         onView(withId(R.id.recipes_rv_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, ViewActionUtils.clickChildViewWithId(R.id.recipe_item)));
-        onView(withId(R.id.ingredient_header)).check(matches(withText("Ingredients")));
-        onView(withId(R.id.ingredients_rv_view)).check(matches(atPosition(0, withText("Graham Cracker crumbs"))));
+        onView(withId(R.id.ingredients_rv_view)).check(matches(atPosition(0, withText("Graham Cracker crumbs"), R.id.ingredient_value)));
+        onView(withId(R.id.steps_rv_view)).check(matches(atPosition(2, withText("Prep the cookie crust."), R.id.short_description)));
     }
 }
