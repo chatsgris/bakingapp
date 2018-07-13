@@ -13,6 +13,8 @@ import com.android.bakingapp.ui.StepDetailActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.intent.Intents.intended;
@@ -28,6 +30,7 @@ import static org.hamcrest.core.IsNot.not;
  * Created by mimiliu on 7/12/18.
  */
 
+@RunWith(JUnit4.class)
 public class RecipeDetailIntentsTest {
 
     @Rule
@@ -43,8 +46,8 @@ public class RecipeDetailIntentsTest {
 
         onView(withId(R.id.steps_rv_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, ViewActionUtils.clickChildViewWithId(R.id.short_description)));
         intended(allOf(
-                IntentMatchers.hasExtraWithKey("Position"),
-                IntentMatchers.hasExtraWithKey("StepId")
+                IntentMatchers.hasExtra("Position", 0),
+                IntentMatchers.hasExtra("StepId", 0)
         ));
         intended(hasComponent(StepDetailActivity.class.getName()));
     }
