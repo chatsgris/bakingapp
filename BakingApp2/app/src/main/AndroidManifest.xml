@@ -11,6 +11,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <receiver android:name=".utils.RecipeWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/recipe_widget_info" />
+        </receiver>
+
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,14 +29,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.RecipeDetailActivity"
-            android:configChanges="orientation|screenSize|layoutDirection"/>
-        <activity android:name=".ui.StepDetailActivity"
-            android:configChanges="orientation|screenSize|layoutDirection"></activity>
+        <activity
+            android:name=".ui.RecipeDetailActivity"
+            android:configChanges="orientation|screenSize|layoutDirection" />
+        <activity
+            android:name=".ui.StepDetailActivity"
+            android:configChanges="orientation|screenSize|layoutDirection" />
+
         <receiver android:name=".ui.StepDetailFragment$MediaReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
+        </receiver>
+        <receiver android:name=".utils.RecipeWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/recipe_widget_info" />
         </receiver>
     </application>
 
