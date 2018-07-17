@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.android.bakingapp.R;
 import com.android.bakingapp.data.Recipes;
+import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -57,6 +58,10 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     private String TAG = StepDetailFragment.class.getSimpleName();
     private NotificationManager mNotificationManager;
 
+    private long startPosition;
+    private boolean startAutoPlay;
+    private int startWindow;
+
     @BindView(R.id.step_instruction_title) TextView stepTitle;
     @BindView(R.id.step_instruction_value) TextView stepDescription;
     @BindView(R.id.prev_button) Button prevButton;
@@ -88,6 +93,14 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         mMediaUri = mRecipes.getMediaUri(mStepId, mPosition);
         mThumbnailUri = mRecipes.getThumbnailUri(mStepId, mPosition);
 
+        if (savedInstanceState != null) {
+            startAutoPlay = savedInstanceState.getBoolean("PlayerAutoPlay");
+            startWindow = savedInstanceState.getInt("PlayerWindowIndex");
+            startPosition = savedInstanceState.getLong("PlayerPosition");
+        } else {
+            clearStartPosition();
+        }
+
         if (mMediaUri == null && mThumbnailUri == null) {
             mPlayerView.setVisibility(View.GONE);
         } else if (mMediaUri != null) {
@@ -98,6 +111,28 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
             initializePlayer(mThumbnailUri);
         }
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        updateStartPosition();
+        outState.putBoolean("PlayerAutoPlay", startAutoPlay);
+        outState.putInt("PlayerWindowIndex", startWindow);
+        outState.putLong("PlayerPosition", startPosition);
+    }
+
+    private void updateStartPosition() {
+        if (mExoPlayer != null) {
+            startAutoPlay = mExoPlayer.getPlayWhenReady();
+            startWindow = mExoPlayer.getCurrentWindowIndex();
+            startPosition = Math.max(0, mExoPlayer.getCurrentPosition());
+        }
+    }
+
+    private void clearStartPosition() {
+        startAutoPlay = true;
+        startWindow = C.INDEX_UNSET;
+        startPosition = C.TIME_UNSET;
     }
 
     @Override
@@ -116,19 +151,23 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
 
     private void initializePlayer(Uri mediaUri) {
         if (mExoPlayer == null) {
-            // Create an instance of the ExoPlayer.
             TrackSelector trackSelector = new DefaultTrackSelector();
             LoadControl loadControl = new DefaultLoadControl();
             mExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
             mPlayerView.setPlayer(mExoPlayer);
-            // Set the ExoPlayer.EventListener to this activity.
             mExoPlayer.addListener(this);
-            // Prepare the MediaSource.
+
             String userAgent = Util.getUserAgent(getContext(), "BakingApp");
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                     getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
-            mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(true);
+
+            boolean haveStartPosition = startWindow != C.INDEX_UNSET;
+            if (haveStartPosition) {
+                mExoPlayer.seekTo(startWindow, startPosition);
+            }
+
+            mExoPlayer.prepare(mediaSource, !haveStartPosition, false);
+            mExoPlayer.setPlayWhenReady(startAutoPlay);
         }
     }
 

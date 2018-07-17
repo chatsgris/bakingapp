@@ -30,11 +30,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.RecipeDetailActivity"
-            android:configChanges="orientation|screenSize|layoutDirection" />
+            android:name=".ui.RecipeDetailActivity" />
         <activity
-            android:name=".ui.StepDetailActivity"
-            android:configChanges="orientation|screenSize|layoutDirection" />
+            android:name=".ui.StepDetailActivity" />
 
         <receiver android:name=".ui.StepDetailFragment$MediaReceiver">
             <intent-filter>
