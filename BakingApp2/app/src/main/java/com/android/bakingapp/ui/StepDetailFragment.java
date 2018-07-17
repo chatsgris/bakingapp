@@ -151,26 +151,8 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        if (mPlayerView.getVisibility() != View.GONE) {
-            releasePlayer();
-            mMediaSession.setActive(false);
-        }
-    }
-
-    @Override
     public void onStop() {
         super.onStop();
-        if (mPlayerView.getVisibility() != View.GONE) {
-            releasePlayer();
-            mMediaSession.setActive(false);
-        }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
         if (mPlayerView.getVisibility() != View.GONE) {
             releasePlayer();
             mMediaSession.setActive(false);
