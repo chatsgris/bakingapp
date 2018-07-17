@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.bakingapp.R;
@@ -38,6 +39,7 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindBool;
 import butterknife.BindView;
@@ -53,7 +55,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     private Uri mMediaUri;
     private int mStepId;
     private int mPosition;
-    private  Uri mThumbnailUri;
+    private  String mThumbnailUri;
     private Recipes mRecipes = new Recipes();
     private String TAG = StepDetailFragment.class.getSimpleName();
     private NotificationManager mNotificationManager;
@@ -64,9 +66,11 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
 
     @BindView(R.id.step_instruction_title) TextView stepTitle;
     @BindView(R.id.step_instruction_value) TextView stepDescription;
+    @BindView(R.id.image_view) ImageView imageView;
     @BindView(R.id.prev_button) Button prevButton;
     @BindView(R.id.next_button) Button nextButton;
     @BindView(R.id.player_view) SimpleExoPlayerView mPlayerView;
+    @BindView(R.id.no_creative_view) TextView mNoCreativeView;
     @BindBool(R.bool.is_tablet) boolean mTwoPane;
 
     public StepDetailFragment() {
@@ -103,12 +107,18 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
 
         if (mMediaUri == null && mThumbnailUri == null) {
             mPlayerView.setVisibility(View.GONE);
+            imageView.setVisibility(View.GONE);
+            mNoCreativeView.setText("No creative asset to display");
         } else if (mMediaUri != null) {
             initializeMediaSession();
             initializePlayer(mMediaUri);
+            imageView.setVisibility(View.GONE);
+            mNoCreativeView.setVisibility(View.GONE);
         } else {
             initializeMediaSession();
-            initializePlayer(mThumbnailUri);
+            Picasso.with(this.getContext()).load(mThumbnailUri).into(imageView);
+            mPlayerView.setVisibility(View.GONE);
+            mNoCreativeView.setVisibility(View.GONE);
         }
         return rootView;
     }

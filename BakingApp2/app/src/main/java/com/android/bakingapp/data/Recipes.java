@@ -51,7 +51,7 @@ public class Recipes implements RecipeListQueryTask.RecipeListAsyncResponse{
         Uri uri = null;
         try {
             String string = getSteps(position).getJSONObject(stepId).getString("videoURL");
-            if (string.length() != 0) {
+            if (string.length() != 0 && string.endsWith(".mp4")) {
                 uri = Uri.parse(string);
             }
         } catch (JSONException e) {
@@ -70,12 +70,12 @@ public class Recipes implements RecipeListQueryTask.RecipeListAsyncResponse{
         return string;
     }
 
-    public Uri getThumbnailUri(int stepId, int position) {
-        Uri uri = null;
+    public String getThumbnailUri(int stepId, int position) {
+        String uri = null;
         try {
             String string = getSteps(position).getJSONObject(stepId).getString("thumbnailURL");
-            if (string.length() != 0) {
-                uri = Uri.parse(string);
+            if (string.length() != 0 && (string.endsWith(".jpg") || string.endsWith(".gif") || string.endsWith(".png"))) {
+                uri = string;
             }
         } catch (JSONException e) {
             Log.e(TAG, "Failed to get thumbnail from JSONArray");

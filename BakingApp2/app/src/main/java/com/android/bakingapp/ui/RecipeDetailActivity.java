@@ -20,6 +20,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_detail);
+        ButterKnife.bind(this);
         mPosition = getIntent().getIntExtra("Position", -1);
 
         if (savedInstanceState == null) {
