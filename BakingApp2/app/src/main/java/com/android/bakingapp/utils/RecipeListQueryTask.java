@@ -11,9 +11,6 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.net.URL;
 
-/**
- * Created by liumi on 7/6/2018.
- */
 
 public class RecipeListQueryTask extends AsyncTask<URL, Void, JSONArray> {
 

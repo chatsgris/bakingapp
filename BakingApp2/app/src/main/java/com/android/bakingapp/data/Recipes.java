@@ -6,7 +6,6 @@ import com.android.bakingapp.utils.NetworkUtils;
 import com.android.bakingapp.utils.RecipeListQueryTask;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.concurrent.ExecutionException;

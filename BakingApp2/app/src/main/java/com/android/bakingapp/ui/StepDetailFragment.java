@@ -114,10 +114,6 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         }
     }
 
-    /**
-     * Initialize ExoPlayer.
-     * @param mediaUri The URI of the sample to play.
-     */
     private void initializePlayer(Uri mediaUri) {
         if (mExoPlayer == null) {
             // Create an instance of the ExoPlayer.
@@ -136,10 +132,6 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         }
     }
 
-
-    /**
-     * Release ExoPlayer.
-     */
     private void releasePlayer() {
         mNotificationManager.cancelAll();
         mExoPlayer.stop();
@@ -148,18 +140,12 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     }
 
     private void initializeMediaSession() {
-        // Create a MediaSessionCompat.
         mMediaSession = new MediaSessionCompat(getContext(), TAG);
-
-        // Enable callbacks from MediaButtons and TransportControls.
         mMediaSession.setFlags(
                 MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS |
                         MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
 
-        // Do not let MediaButtons restart the player when the app is not visible.
         mMediaSession.setMediaButtonReceiver(null);
-
-        // Set an initial PlaybackState with ACTION_PLAY, so media buttons can start the player.
         mStateBuilder = new PlaybackStateCompat.Builder()
                 .setActions(
                         PlaybackStateCompat.ACTION_PLAY |
@@ -168,18 +154,10 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
                                 PlaybackStateCompat.ACTION_PLAY_PAUSE);
 
         mMediaSession.setPlaybackState(mStateBuilder.build());
-
-
-        // MySessionCallback has methods that handle callbacks from a media controller.
         mMediaSession.setCallback(new MySessionCallback());
-
-        // Start the Media Session since the activity is active.
         mMediaSession.setActive(true);
     }
 
-    /**
-     * Media Session Callbacks, where all external clients control the player.
-     */
     private class MySessionCallback extends MediaSessionCompat.Callback {
         @Override
         public void onPlay() {
@@ -235,9 +213,6 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
 
     }
 
-    /**
-     * Broadcast Receiver registered to receive the MEDIA_BUTTON intent coming from clients.
-     */
     public static class MediaReceiver extends BroadcastReceiver {
 
         public MediaReceiver() {
@@ -249,11 +224,6 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         }
     }
 
-    /**
-     * Shows Media Style notification, with actions that depend on the current MediaSession
-     * PlaybackState.
-     * @param state The PlaybackState of the MediaSession.
-     */
     private void showNotification(PlaybackStateCompat state) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext());
 

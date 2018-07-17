@@ -1,5 +1,4 @@
 package com.android.bakingapp.utils;
-
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -8,23 +7,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.widget.RemoteViews;
-
 import com.android.bakingapp.R;
 import com.android.bakingapp.data.Recipes;
 import com.android.bakingapp.ui.MainActivity;
 
-/**
- * Implementation of App Widget functionality.
- */
+
 public class RecipeWidgetProvider extends AppWidgetProvider {
     int mPosition = 0;
     static String WIDGET_BUTTON = "WIDGET_BUTTON_CLICKED";
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        // There may be multiple widgets active, so update all of them
-        for (int appWidgetId : appWidgetIds) {
 
+        for (int appWidgetId : appWidgetIds) {
             Intent intent = new Intent(context, RecipeWidgetService.class);
             intent.putExtra("Position", mPosition);
             intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
@@ -45,28 +40,23 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
             PendingIntent clickButtonPendingIntent = PendingIntent.getBroadcast(context, 0, clickButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             views.setOnClickPendingIntent(R.id.widget_next_button, clickButtonPendingIntent);
 
-            // Instruct the widget manager to update the widget
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
     @Override
-    public void onEnabled(Context context) {
-        // Enter relevant functionality for when the first widget is created
-    }
+    public void onEnabled(Context context) {}
 
     @Override
-    public void onDisabled(Context context) {
-        // Enter relevant functionality for when the last widget is disabled
-    }
+    public void onDisabled(Context context) {}
 
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         if (WIDGET_BUTTON.equals(intent.getAction())) {
             int total_recipes = new Recipes().getRecipes().length();
-            if (mPosition < total_recipes - 1) {
+            if (mPosition < (total_recipes - 1)) {
                 mPosition += 1;
             } else {
                 mPosition = 0;
