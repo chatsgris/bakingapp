@@ -1,8 +1,10 @@
 package com.android.bakingapp.ui;
 
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.android.bakingapp.R;
@@ -19,6 +21,8 @@ public class StepDetailActivity extends AppCompatActivity {
         mStepId = getIntent().getIntExtra("StepId", -1);
         mPosition = getIntent().getIntExtra("Position", -1);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         if (savedInstanceState == null) {
             Bundle bundle = new Bundle();
             bundle.putInt("StepId", mStepId);
@@ -28,6 +32,16 @@ public class StepDetailActivity extends AppCompatActivity {
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().add(R.id.step_detail_container, stepDetailFragment).commit();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
         public void onPrevButtonClick(View view) {

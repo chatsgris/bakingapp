@@ -2,8 +2,10 @@ package com.android.bakingapp.ui;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.android.bakingapp.R;
 
@@ -23,6 +25,8 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
         ButterKnife.bind(this);
         mPosition = getIntent().getIntExtra("Position", -1);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         if (savedInstanceState == null) {
             Bundle bundle = new Bundle();
             bundle.putInt("Position", mPosition);
@@ -32,6 +36,16 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
             mFragmentManager = getSupportFragmentManager();
             mFragmentManager.beginTransaction().add(R.id.recipe_detail_container, recipeDetailFragment).commit();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
