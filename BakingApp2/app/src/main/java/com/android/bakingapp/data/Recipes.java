@@ -37,6 +37,16 @@ public class Recipes implements RecipeListQueryTask.RecipeListAsyncResponse{
         return jsonArray;
     }
 
+    public String getRecipeTitle(int position) {
+        String string = null;
+        try {
+            string = mRecipes.getJSONObject(position).getString("name");
+        } catch (JSONException e) {
+            Log.e(TAG, e.getMessage());
+        }
+        return string;
+    }
+
     public JSONArray getSteps(int position) {
         JSONArray jsonArray = null;
         try {

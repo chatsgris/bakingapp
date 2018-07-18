@@ -25,6 +25,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
             intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
 
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget);
+            views.setTextViewText(R.id.widget_title, new Recipes().getRecipeTitle(mPosition));
 
             views.setRemoteAdapter(appWidgetId, R.id.widget_lv, intent);
 

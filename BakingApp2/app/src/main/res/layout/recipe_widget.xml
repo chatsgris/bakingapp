@@ -1,26 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:weightSum="6"
     android:background="#FFFFFF">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        tools:text="Recipe Title"
+        android:textStyle="bold"
+        android:layout_weight="2"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:id="@+id/widget_title"/>
 
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/widget_lv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="5"
+        android:layout_height="0dp"
+        android:layout_weight="20"
         android:scrollbars="vertical" />
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_gravity="center"
         android:text="Next Recipe"
-        android:layout_weight="1"
+        android:layout_weight="3"
         android:id="@+id/widget_next_button"/>
 
 </LinearLayout>
