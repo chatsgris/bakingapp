@@ -6,9 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.bakingapp.R;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +39,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Vi
 
     class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.recipe_item) TextView recipeItemView;
+        @BindView(R.id.recipe_item_image) ImageView recipeImageView;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -53,12 +56,19 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Vi
     @Override
     public void onBindViewHolder(RecipeListAdapter.ViewHolder holder, final int position) {
         String text = null;
+        String imageUri = null;
         try {
             text = mJsonArray.getJSONObject(position).getString("name");
+            imageUri = mJsonArray.getJSONObject(position).getString("image");
         } catch (JSONException e) {
-            Log.e(TAG, "Failed to parse recipe name from JSONArray");
+            Log.e(TAG, "Failed to parse recipe info from JSONArray");
         }
         holder.recipeItemView.setText(text);
+        if (!imageUri.isEmpty()) {
+            Picasso.with(holder.recipeImageView.getContext()).load(imageUri).into(holder.recipeImageView);
+        } else {
+            holder.recipeImageView.setVisibility(View.GONE);
+        }
         holder.recipeItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

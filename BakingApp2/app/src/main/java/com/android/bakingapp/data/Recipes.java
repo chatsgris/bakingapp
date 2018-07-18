@@ -47,6 +47,19 @@ public class Recipes implements RecipeListQueryTask.RecipeListAsyncResponse{
         return string;
     }
 
+    public String getImageUri(int position) {
+        String uri = null;
+        try {
+            String string = mRecipes.getJSONObject(position).getString("image");
+            if (string.length() != 0 && (string.endsWith(".jpg") || string.endsWith(".gif") || string.endsWith(".png"))) {
+                uri = string;
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "Failed to get image from JSONArray");
+        }
+        return uri;
+    }
+
     public JSONArray getSteps(int position) {
         JSONArray jsonArray = null;
         try {
