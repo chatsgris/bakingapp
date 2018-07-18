@@ -13,7 +13,7 @@ import com.android.bakingapp.ui.MainActivity;
 
 
 public class RecipeWidgetProvider extends AppWidgetProvider {
-    int mPosition = 0;
+    static int mPosition = 0;
     static String WIDGET_BUTTON = "WIDGET_BUTTON_CLICKED";
 
     @Override
